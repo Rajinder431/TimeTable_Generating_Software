@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timetable Generator</title>
+</head>
+<body>
+  <h1>Timetable Generator</h1>
+  <button onclick="generateTimetable()">Generate Timetable</button>
+  <pre id="resultArea"></pre>
+
+  <script>
+    async function generateTimetable() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/generate-timetable/', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) throw new Error("Request failed");
+
+        const data = await response.json();
+        document.getElementById("resultArea").textContent = JSON.stringify(data.result, null, 2);
+      } catch (error) {
+        document.getElementById("resultArea").textContent = "Error generating timetable.";
+      }
+    }
+  </script>
+</body>
+</html>
